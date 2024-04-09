@@ -56,18 +56,16 @@ class EventAPIDetailView(generics.RetrieveUpdateDestroyAPIView):
     pagination_class = UniversalPaginationStyle
 
 
+menu = ['О сайте', 'Добавить мероприятие', 'Обратная связь', 'Войти']
+
 
 def index(request):
-    return HttpResponse("<center><h1>Тестовое задание: стартовая страница</h1>\
-    <br><a href='http://127.0.0.1:8000/admin/'>Админка</a> \
-     <br><a href='http://127.0.0.1:8000/api/v1/token'>Получить JWT токены</a> \
-    <br><a href='http://127.0.0.1:8000/api/v1/companies'>Организации</a> \
-    <br><a href='http://127.0.0.1:8000/api/v1/events'>Мероприятия</a> \
-    <br><a href='http://127.0.0.1:8000/api/v1/event_details/1/'>Изменить мероприятие</a> \
-    <br><a href='http://127.0.0.1:8000/api/v1/companies_details/2/'>Изменить организацию</a> \
-    <br><h1><i>Доступ в админку как по логину, так и по e-mail.</i> Пользователь: <u>root</u>. E-mail: <u>root@mail.ru</u>. \
-     Пароль: <u>12345</u></h1></center>"
-                        )
+    posts = Event.objects.all()
+    return render(request, 'company_event/main_menu.html', {'title': 'Main project page'})
+
+def about(request):
+    return render(request, 'company_event/about.html', {'menu': menu, 'title': 'About this project'})
+
 
 def page_not_found(request, exception):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')
