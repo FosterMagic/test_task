@@ -14,19 +14,22 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
 from company_event.views import CompanyAPIVIew, EventAPIVIew, CompanyAPIUpdate, EventAPIUpdate, CompanyAPIDetailView, EventAPIDetailView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
-from company_event.views import page_not_found, index
+from company_event.views import page_not_found, index, about
+from portal import settings
 
 # from .views import CompanyAPIVIew
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index),
+    path('', index, name='home'),
+    path('about/', about, name='about'),
 
     path('api/v1/companies', CompanyAPIVIew.as_view()),
     path('api/v1/companies/<int:pk>/', CompanyAPIUpdate.as_view()),
@@ -40,5 +43,10 @@ urlpatterns = [
     path('api/v1/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/v1/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
 ]
+#
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
 
 handler404 = page_not_found

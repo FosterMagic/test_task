@@ -1,13 +1,12 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
-
-# Create your models here.
 
 class Company(models.Model):
-    title = models.CharField(max_length=100)
-    description = models.TextField(blank=True)
-    address = models.CharField(max_length=150, blank=True)
-    postcode = models.IntegerField(default=197374)
+    title = models.CharField(max_length=100, verbose_name='Название')
+    description = models.TextField(blank=True, verbose_name='Описание')
+    address = models.CharField(max_length=150, blank=True, verbose_name='Адрес')
+    postcode = models.IntegerField(default=197374, verbose_name='Почтовый индекс')
 
     def __str__(self):
         return self.title
@@ -18,11 +17,11 @@ class Company(models.Model):
 
 
 class Event(models.Model):
-    title = models.CharField(max_length=100)
-    description = models.TextField(blank=True)
-    company = models.ForeignKey('Company', on_delete=models.PROTECT, null=True)
-    image = models.ImageField(blank=True, upload_to='images')
-    date = models.DateField(auto_now_add=True)
+    title = models.CharField(max_length=100, verbose_name='Название')
+    description = models.TextField(blank=True, verbose_name='Описание')
+    company = models.ForeignKey('Company', on_delete=models.PROTECT, null=True, verbose_name='Компания')
+    image = models.ImageField(blank=True, upload_to='images', verbose_name='Изображение')
+    date = models.DateField(auto_now_add=True, verbose_name='Дата')
 
     def __str__(self):
         return self.title
@@ -30,4 +29,3 @@ class Event(models.Model):
     class Meta:
         verbose_name = 'Мероприятие'
         verbose_name_plural = 'Мероприятия'
-
